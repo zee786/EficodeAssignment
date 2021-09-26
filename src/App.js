@@ -1,24 +1,30 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from "react";
+import { getEvents } from "./MiddlewareAPI";
+
+import "./App.css";
 
 function App() {
+  const [events, setEvents] = useState({});
+ 
+  const getEventsData = async () => {
+    const eventDetails = await getEvents();
+    
+    setEvents(eventDetails);
+    console.log(eventDetails);
+  };
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      <h1>
+        <center>
+          <p>Events</p>
+        </center>
+      </h1>
+      <div className="App">{events?.date}</div>
+      <div className="App">{events?.sensor1}</div>
+      <div className="App">{events?.sensor2}</div>
+      <div className="App">{events?.sensor3}</div>
+
+    </>
   );
 }
 

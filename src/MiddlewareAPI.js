@@ -41,10 +41,10 @@ async function addAuthHeader(headers = {}) {
   return defaultHeader;
 }
 
-export async function login() {
+export async function login(email, password) {
   const body = {
-    email: "mszesh@gmail.com",
-    password: "Madiha@786"
+    email,
+    password
   };
   const lognAPI = "opendata.hopefully.works/api/login";
   const response = await post(lognAPI, body);
@@ -82,10 +82,9 @@ async function parseResponse(response, isCamelCase = true) {
   return data;
 }
 // read
-async function get(path) {
+async function get(path, authToken) {
   try {
-    const loginResponse = await login();
-    const authToken = loginResponse.accessToken;
+   
     if (authToken) {
       const response = await fetch(`https://${path}`, {
         headers: {
@@ -94,7 +93,6 @@ async function get(path) {
         },
         mode: "cors"
       });
-
       return response;
     }
   } catch (error) {
@@ -102,8 +100,8 @@ async function get(path) {
   }
 }
 
-export async function getEvents() {
+export async function getEvents(token) {
   const eventsAPI = "opendata.hopefully.works/api/events";
-  const response = await get(eventsAPI);
+  const response = await get(eventsAPI, token);
   return parseBody(await parseResponse(response));
 }

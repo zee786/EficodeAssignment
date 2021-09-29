@@ -1,6 +1,14 @@
 import React, { useState } from "react";
 import { getEvents } from "./MiddlewareAPI";
 import { Button, Typography } from "@mui/material";
+import {
+  useHistory,
+  BrowserRouter as Router,
+  Route,
+  Switch,
+  Redirect,
+  withRouter
+} from "react-router-dom";
 import Login from "./Login";
 import "./App.css";
 
@@ -14,14 +22,10 @@ function App() {
     console.log(eventDetails);
   };
   return (
-    <>
-      <h1>
-        <center>
-          <p>Login</p>
-        </center>
-      </h1>
+    <Router>
+    
       <Login />
-    </>
+    </Router>
   );
 }
 

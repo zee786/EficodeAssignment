@@ -1,16 +1,11 @@
 import React, { useState } from "react";
 import { getEvents } from "./MiddlewareAPI";
 import { Button, Typography } from "@mui/material";
+import { useHistory } from "react-router-dom";
 
-const EventDetails = () => {
-  const [events, setEvents] = useState({});
-
-  const handleClick = async () => {
-    const eventDetails = await getEvents();
-
-    setEvents(eventDetails);
-    console.log(eventDetails);
-  };
+const EventDetails = ({ events }) => {
+  const history= useHistory();
+  console.log('history', history);
   return (
     <>
       <h1>
@@ -26,7 +21,6 @@ const EventDetails = () => {
         <Button
           variant="outlined"
           style={{ alignItems: "center" }}
-          onClick={handleClick}
         >
           Get Events
         </Button>
@@ -34,3 +28,5 @@ const EventDetails = () => {
     </>
   );
 };
+
+export default EventDetails;

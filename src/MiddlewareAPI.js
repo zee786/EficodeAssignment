@@ -84,7 +84,6 @@ async function parseResponse(response, isCamelCase = true) {
 // read
 async function get(path, authToken) {
   try {
-   
     if (authToken) {
       const response = await fetch(`https://${path}`, {
         headers: {

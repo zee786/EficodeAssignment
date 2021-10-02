@@ -1,8 +1,11 @@
-const db = require("./models");
-const Events = db.Events;
-const Op = db.Sequelize.Op;
+const eventModel = require("../models/events.model");
 
-// Create and Save a new event
+// Create and Save a event
 exports.create = (req, res) => {
+  
+};
+
+// Retrieve all events.
+exports.findAll = (req, res) => {
   
 };

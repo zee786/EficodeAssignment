@@ -1,8 +1,8 @@
-module.exports = {
-  HOST: "localhost",
-  USER: "root",
-  PASSWORD: "",
-  DB: "testdb",
+let configuration = {
+  host: "localhost",
+  user: "root",
+  password: "",
+  database: "testdb",
   dialect: "mysql",
   pool: {
     max: 5,
@@ -10,4 +10,8 @@ module.exports = {
     acquire: 30000,
     idle: 10000
   }
+};
+
+module.exports = {
+  configuration
 };

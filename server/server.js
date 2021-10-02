@@ -10,8 +10,9 @@ var corsOptions = {
 
 app.use(cors(corsOptions));
 
-const db = require("./models");
-db.sequelize.sync();
+const eventDetails = require("./models/getToken");
+
+console.log("events deatils", eventDetails);
 
 // parse requests of content-type - application/json
 app.use(bodyParser.json());

@@ -1,28 +1,40 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { getEvents } from "./MiddlewareAPI";
+import { BrowserRouter as Router, Link, Switch, Route } from "react-router-dom";
+
+import Home from "./Login";
 import { Button, Typography } from "@mui/material";
 import { useHistory } from "react-router-dom";
 
-const EventDetails = ({ events }) => {
+const EventDetails = ({ token }) => {
   const history = useHistory();
-  console.log("history", events);
+  const [events, setEvents] = useState({});
+
+  console.log("login");
+  useEffect(() => {
+    const fetchData = async () => {
+      if (token) {
+        const eventResponse = await getEvents(token);
+        history.push("/Events");
+        setEvents(eventResponse);
+      }
+    };
+
+    fetchData();
+  }, [token]);
   return (
-    <div>
+    <Router>
       <div>
-        <Button variant="outlined" style={{ alignItems: "center" }}>
-          Back to Login
-        </Button>
+        <Link to="/">Home</Link>
       </div>
-      <Typography variant="h3" gutterBottom>
+      <Typography gutterBottom marginTop={50} align="center">
         Events
-      </Typography>
-      <Typography align="center">
         <div className="App">Date: {events?.date}</div>
-        <div className="App">Sensor1: {events?.sensor1}</div>
-        <div className="App">Sensor2: {events?.sensor2}</div>
+        <div>Sensor1: {events?.sensor1}</div>
+        <div>Sensor2: {events?.sensor2}</div>
         <div className="App">Sensor3: {events?.sensor3}</div>
       </Typography>
-    </div>
+    </Router>
   );
 };
 

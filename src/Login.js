@@ -4,14 +4,7 @@ import { has, isEmpty } from "lodash";
 
 import { Typography, Button, Stack, Grid } from "@mui/material";
 import { getEvents, getToken, login } from "./MiddlewareAPI";
-import {
-  useHistory,
-  BrowserRouter,
-  Route,
-  Switch,
-  Redirect,
-  withRouter
-} from "react-router-dom";
+import { useHistory, Route, Switch } from "react-router-dom";
 import TextField from "@mui/material/TextField";
 import EventDetails from "./EventDetails";
 
@@ -29,20 +22,6 @@ const Login = () => {
   const handleChange = event => {
     setEmail(event.target.value);
   };
-  useEffect(() => {
-    const fetchData = async () => {
-      if (authToken) {
-        const eventResponse = await getEvents(authToken);
-        history.push("/Events");
-        setEvents(eventResponse);
-      }
-    };
-    const timer = setTimeout(() => {
-      fetchData();
-    }, 5000);
-
-    return () => clearTimeout(timer);
-  }, [authToken]);
 
   const handleLogin = async () => {
     try {
@@ -52,6 +31,7 @@ const Login = () => {
           console.log("loginResponse", loginResponse);
         } else {
           setAuthToken(loginResponse.accessToken);
+          history.push("/Events");
         }
       }
     } catch (err) {
@@ -70,11 +50,11 @@ const Login = () => {
       console.log(err);
     }
   };
-  console.log(isEmpty(events));
+  console.log(authToken);
 
   return (
     <Grid container justifyContent="center">
-      {isEmpty(events) ? (
+      {!authToken ? (
         <div>
           <Typography variant="h3" gutterBottom marginTop={50} align="center">
             Login
@@ -107,16 +87,24 @@ const Login = () => {
                   }}
                 />
                 {tokenResponse && <div>Already SignUp, please Login</div>}
-                <Typography align="center">
-                  <Stack direction="row" spacing={2}>
+                <div>
+                  <Box
+                    component="form"
+                    sx={{
+                      "& > :not(style)": { m: 1, width: "25ch" }
+                    }}
+                    noValidate
+                    autoComplete="off"
+                    justifyContent="center"
+                  >
                     <Button variant="outlined" onClick={handleLogin}>
                       Login
                     </Button>
                     <Button variant="outlined" onClick={handleToken}>
                       SignUp
                     </Button>
-                  </Stack>
-                </Typography>
+                  </Box>
+                </div>
               </Box>
             </Typography>
           </div>
@@ -124,7 +112,7 @@ const Login = () => {
       ) : (
         <Switch>
           <Route exact path="/Events">
-            <EventDetails events={events} />
+            <EventDetails token={authToken} />
           </Route>
         </Switch>
       )}

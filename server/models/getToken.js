@@ -1,10 +1,6 @@
 const axios = require("axios");
 const eventModel = require("../models/events.model");
-
-let data = JSON.stringify({
-  email: "msss@gmail.com",
-  password: "Madiha@786"
-});
+const ONE_HOUR = 60 * 60 * 1000;
 
 let token = null;
 let events = null;
@@ -79,9 +75,10 @@ async function SignUp() {
     token = await login();
 
     if (token) {
-      await delay(1000);
-      events = await getEvents(token);
-      eventModel.create(events);
+      setInterval(async () => {
+        events = await getEvents(token);
+        eventModel.create(events);
+      }, ONE_HOUR);
     }
   }
 }

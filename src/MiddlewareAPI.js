@@ -1,55 +1,5 @@
 import camelize from "camelize";
-import { has, isEmpty } from "lodash";
-
-async function post(path, body, { headers = {}, ...rest } = {}) {
-  const _headers = {
-    "Content-Type": "application/json",
-    ...headers
-  };
-  try {
-    const response = await fetch(`https://${path}`, {
-      ...rest,
-      method: "POST",
-      headers: await _headers,
-      body: JSON.stringify(body),
-      mode: "cors"
-    });
-    return response;
-  } catch (error) {
-    return error;
-  }
-}
-
-export async function getToken(email, password) {
-  const body = {
-    email,
-    password
-  };
-  const singupAPI = "opendata.hopefully.works/api/signup";
-  const response = await post(singupAPI, body);
-  console.log("response", response);
-  return parseBody(await parseResponse(response));
-}
-
-async function addAuthHeader(headers = {}) {
-  const jwtToken = await getToken();
-  console.log("jwtToken", jwtToken);
-  const defaultHeader = jwtToken ? { Authorization: jwtToken } : null;
-  if (!isEmpty(headers)) {
-    return { ...headers, ...defaultHeader };
-  }
-  return defaultHeader;
-}
-
-export async function login(email, password) {
-  const body = {
-    email,
-    password
-  };
-  const lognAPI = "opendata.hopefully.works/api/login";
-  const response = await post(lognAPI, body);
-  return parseBody(await parseResponse(response));
-}
+import { has } from "lodash";
 
 async function parseBody(data) {
   try {
@@ -82,7 +32,7 @@ async function parseResponse(response, isCamelCase = true) {
   return data;
 }
 // read
-async function get(path, authToken) {
+async function get(path) {
   try {
     const response = await fetch(`http://${path}`, {
       headers: {
@@ -97,7 +47,6 @@ async function get(path, authToken) {
 }
 
 export async function getEvents(token) {
-  //  const eventsAPI = "opendata.hopefully.works/api/events";
   const eventsAPI = "localhost:5000/getAllEvents";
   const response = await get(eventsAPI, token);
   return parseBody(await parseResponse(response));

@@ -1,25 +1,33 @@
 import React, { useEffect, useState } from "react";
-import { compose } from "recompose";
 import { getEvents } from "./MiddlewareAPI";
-import Axios from "axios";
-import { BrowserRouter as Router, withRouter } from "react-router-dom";
 import EventsData from "./ShowEventsData";
+import { isEmpty } from "lodash";
 import "./App.css";
+import { textAlign } from "@mui/system";
 
+const ONE_HOUR = 60 * 60 * 1000;
 function App() {
   const [events, setEvents] = useState({});
 
   useEffect(() => {
     const fetchData = async () => {
-      const eventResponse = await getEvents();
-      setEvents(eventResponse);
+      const intervalId = setInterval(async () => {
+        const eventResponse = await getEvents();
+        setEvents(eventResponse);
+      }, ONE_HOUR);
+      return () => clearInterval(intervalId);
     };
+
     fetchData();
   }, []);
+  if (isEmpty(events))
+    return (
+      <div style={{ textAlign: "center", marginTop: 50 }}>Waiting for Data</div>
+    );
   return (
-    <Router>
+    <>
       <EventsData events={events} />
-    </Router>
+    </>
   );
 }
 

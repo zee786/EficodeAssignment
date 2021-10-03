@@ -1,4 +1,6 @@
 const express = require("express");
+const path = require('path');
+
 const bodyParser = require("body-parser");
 const cors = require("cors");
 const getToken = require("./models/getToken");
@@ -6,10 +8,6 @@ const app = express();
 const dbConfig = require("./config/db.config");
 let mysql = require("mysql");
 let connection = mysql.createConnection(dbConfig.configuration);
-let currentDate = new Date();
-let currentHours = currentDate.setHours(currentDate.getHours() + 1);
-let newDate = new Date(currentHours);
-console.log(newDate);
 
 getToken;
 connection.connect(function(err) {
@@ -35,11 +33,17 @@ app.get("/getAllEvents", (req, res) => {
       console.log("error: ", err);
       return err;
     }
-    console.log(rows);
-
     return res.send(rows);
   });
 });
+
+app.use(express.static(path.join(__dirname, 'build')));
+
+
+app.get('/*', (req, res) => {
+  res.sendFile(path.join(__dirname, 'build', 'index.html'));
+});
+
 
 // set port, listen for requests
 const PORT = process.env.PORT || 5000;

@@ -65,6 +65,10 @@ async function getEvents(authToken) {
     return err.response.status;
   }
 }
+async function delay(ms) {
+  // return await for better async stack trace support in case of errors.
+  return await new Promise(resolve => setTimeout(resolve, ms));
+}
 async function SignUp() {
   const response = await loadToken();
   if (response !== 400) {
@@ -75,10 +79,9 @@ async function SignUp() {
     token = await login();
 
     if (token) {
+      await delay(1000);
       events = await getEvents(token);
-      if (events !== {} && events !== null) {
-        eventModel.getAll("results");
-      }
+      eventModel.create(events);
     }
   }
 }

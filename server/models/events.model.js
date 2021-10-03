@@ -36,15 +36,5 @@ Event.create = (newEvent, result) => {
   );
 };
 
-Event.getAll = () => {
-  connection.query("SELECT * FROM events", (err, res) => {
-    if (err) {
-      console.log("error: ", err);
-      return err;
-    }
-    console.log("events: ");
-    return res;
-  });
-};
 
 module.exports = Event;

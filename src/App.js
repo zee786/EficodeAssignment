@@ -11,11 +11,14 @@ function App() {
 
   useEffect(() => {
     const fetchData = async () => {
-      const intervalId = setInterval(async () => {
+      /*  const intervalId = setInterval(async () => {
         const eventResponse = await getEvents();
         setEvents(eventResponse);
       }, ONE_HOUR);
       return () => clearInterval(intervalId);
+    }; */
+      const eventResponse = await getEvents();
+      setEvents(eventResponse);
     };
 
     fetchData();

@@ -9,17 +9,4 @@ exports.create = (req, res) => {
     });
   }
 };
-// Retrieve all events.
-exports.findAll = (req, res) => {
-  eventModel.getAll((err, data) => {
-    if (err)
-      res.status(500).send({
-        message:
-          err.message || "Some error occurred while retrieving customers."
-      });
-    else {
-      console.log("data", data);
-      res.send(data);
-    }
-  });
-};
+

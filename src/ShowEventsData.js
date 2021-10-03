@@ -1,6 +1,7 @@
 import * as React from "react";
 import Table from "@mui/material/Table";
-import { withStyles, makeStyles } from "@material-ui/core/styles";
+import { format } from "date-fns";
+import { makeStyles } from "@material-ui/core/styles";
 import { isEmpty } from "lodash";
 import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
@@ -18,17 +19,16 @@ const useStyles = makeStyles({
 
 const EventsData = ({ events }) => {
   const classes = useStyles();
-  console.log("events", events);
+
   return (
     <>
       <Typography gutterBottom marginTop={10} align="center">
-        {isEmpty(events) && "No Data"}
+        Event Details
       </Typography>
       <TableContainer component={Paper}>
         <Table className={classes.table} aria-label="simple table">
           <TableHead>
             <TableRow>
-              <TableCell>Data</TableCell>
               <TableCell align="left">Date</TableCell>
               <TableCell align="left">Sensor 1</TableCell>
               <TableCell align="left">Sensor 2</TableCell>
@@ -38,21 +38,23 @@ const EventsData = ({ events }) => {
           </TableHead>
           <TableBody>
             {events &&
-              events.map(event => (
-                <TableRow
-                  key={event.Id}
-                  sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
-                >
-                  <TableCell component="th" scope="row">
-                    {event.Id}
-                  </TableCell>
-                  <TableCell align="left">{event.date}</TableCell>
-                  <TableCell align="left">{event.sensor1}</TableCell>
-                  <TableCell align="left">{event.sensor2}</TableCell>
-                  <TableCell align="left">{event.sensor3}</TableCell>
-                  <TableCell align="left">{event.sensor4}</TableCell>
-                </TableRow>
-              ))}
+              events.map(event => {
+                const eventDate = new Date(event.date);
+                return (
+                  <TableRow
+                    key={event.Id}
+                    sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+                  >
+                    <TableCell align="left">
+                      {format(eventDate, "dd.M. HH:mm")}
+                    </TableCell>
+                    <TableCell align="left">{event.sensor1}</TableCell>
+                    <TableCell align="left">{event.sensor2}</TableCell>
+                    <TableCell align="left">{event.sensor3}</TableCell>
+                    <TableCell align="left">{event.sensor4}</TableCell>
+                  </TableRow>
+                );
+              })}
           </TableBody>
         </Table>
       </TableContainer>

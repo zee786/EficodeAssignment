@@ -1,6 +1,6 @@
 const axios = require("axios");
 const eventModel = require("../models/events.model");
-const ONE_HOUR = 60 * 60 * 1000;
+const ONE_HOUR = 3600000;
 
 let token = null;
 let events = null;
@@ -20,7 +20,6 @@ async function loadToken() {
     token = data;
     return token.accessToken;
   } catch (err) {
-    console.log("err in loadToken", err.response.status);
     return err.response.status;
   }
 }

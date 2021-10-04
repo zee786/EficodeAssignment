@@ -2,7 +2,6 @@ import * as React from "react";
 import Table from "@mui/material/Table";
 import { format } from "date-fns";
 import { makeStyles } from "@material-ui/core/styles";
-import { isEmpty } from "lodash";
 import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
 import TableContainer from "@mui/material/TableContainer";

@@ -3,9 +3,8 @@ import { getEvents } from "./MiddlewareAPI";
 import EventsData from "./ShowEventsData";
 import { isEmpty } from "lodash";
 import "./App.css";
-import { textAlign } from "@mui/system";
 
-const ONE_HOUR = 60 * 60 * 1000;
+// const ONE_HOUR = 60 * 60 * 1000;
 function App() {
   const [events, setEvents] = useState({});
 
